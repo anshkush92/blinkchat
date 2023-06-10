@@ -42,7 +42,7 @@ const Register = () => {
     if (response.status === false) {
       toast.error(response.message);
     } else {
-      localStorage.setItem('blinkchat-user', response.username);
+      localStorage.setItem('blinkchat-user', username);
       toast.success(response.message);
 
       // Navigate to homepage after successful login

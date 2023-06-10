@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Input from '../common/inputs/Input';
 import SubmitButton from '../common/buttons/SubmitButton';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +10,13 @@ const Login = () => {
 
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+
+  // Check if user is already logged in - Persistent Login
+  useEffect(() => {
+    if (localStorage.getItem('blinkchat-user')) {
+      navigate('/');
+    }
+  }, [navigate]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

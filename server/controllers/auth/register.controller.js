@@ -4,6 +4,8 @@ const bcrypt = require('bcrypt');
 const register = async (req, res) => {
   const { username, email, password } = req.body;
 
+  console.log(req.body);
+
   try {
     // Check if username or email already exists
     const user = await User.findOne({ $or: [{ username }, { email }] });

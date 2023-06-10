@@ -2,6 +2,8 @@ import { useState } from 'react';
 import Input from '../common/inputs/Input';
 import SubmitButton from '../common/buttons/SubmitButton';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import url from '../../utils/apiRoutes';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -9,8 +11,33 @@ const Login = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!email || !password) {
+      toast.error('Please fill in all fields');
+      return;
+    }
+
+    const response = await fetch(`${url}/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await response.json();
+
+    console.log(data);
+
+    if (data.status) {
+      toast.success(data.message);
+      navigate('/');
+    } else {
+      toast.error(data.message);
+    }
+
     console.log('Form submitted');
   };
 
@@ -30,10 +57,10 @@ const Login = () => {
       onSubmit={handleSubmit}
     >
       <Input
-        label={'Email'}
+        label={'Email or Username'}
         id={'email'}
-        type={'email'}
-        placeholder={'test@gmail.com'}
+        type={'string'}
+        placeholder={'test@gmail.com or testkush92'}
         onChange={handleEmail}
         value={email}
       />

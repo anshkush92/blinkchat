@@ -19,8 +19,10 @@ const Register = () => {
 
     if (!username || !email || !password || !confirmPassword) {
       toast.error('Please fill in all fields');
+      return;
     } else if (password !== confirmPassword) {
       toast.error('Passwords do not match');
+      return;
     }
 
     // Sending form data to the server
@@ -44,7 +46,7 @@ const Register = () => {
       toast.success(response.message);
 
       // Navigate to homepage after successful login
-      navigate('/');
+      navigate('/auth/login');
     }
   };
 

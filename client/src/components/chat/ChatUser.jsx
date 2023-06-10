@@ -1,14 +1,25 @@
-import React from 'react';
+import { useState } from 'react';
 
 const ChatUser = ({ users }) => {
-  console.log(users);
+  const [currentChat, setCurrentChat] = useState();
+
+  const handleCurrentChat = (user) => {
+    console.log(user.username);
+    setCurrentChat(user._id);
+  };
+
   return (
     <div className='h-full flex flex-col gap-y-4 bg-[#FFC947] p-4 basis-3/12 justify-between'>
       <div className='flex justify-center text-[#F15412]'>Blinkchat</div>
+
       <div className='overflow-y-hidden hover:overflow-y-scroll flex flex-col gap-y-2 p-2 bg-red-400'>
         {users &&
           users.map((user, index) => (
-            <div key={user._id} className='bg-[#FEDDBE] p-2'>
+            <div
+              key={user._id}
+              className='bg-[#FEDDBE] p-2'
+              onClick={() => handleCurrentChat(user)}
+            >
               <div className='flex items-center gap-x-2'>
                 <img
                   src='https://mui.com/static/images/avatar/1.jpg'
@@ -20,6 +31,7 @@ const ChatUser = ({ users }) => {
             </div>
           ))}
       </div>
+
       <div className='bg-red-300 p-2'>
         <div className='flex items-center gap-x-2'>
           <img

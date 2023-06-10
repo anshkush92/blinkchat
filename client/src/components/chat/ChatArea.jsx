@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import ChatContext from '../../context/chatContext';
+import ChatHeader from './ChatHeader';
 
 import Welcome from './Welcome';
 
@@ -7,9 +8,19 @@ const ChatArea = () => {
   const { currentChat } = useContext(ChatContext);
 
   return (
-    <div className='flex flex-col justify-center items-center text-white grow-[1]'>
+    <div
+      className={`${
+        currentChat
+          ? 'justify-between items-start'
+          : 'justify-center items-center'
+      } flex h-full flex-col text-white grow-[1]`}
+    >
+      {currentChat && <ChatHeader />}
+
       {currentChat ? (
-        <div>Chatting with {currentChat.username}</div>
+        <>
+          <div>Chatting with {currentChat?.username}</div>
+        </>
       ) : (
         <Welcome />
       )}

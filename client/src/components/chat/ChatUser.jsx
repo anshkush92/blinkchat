@@ -10,7 +10,7 @@ const ChatUser = ({ users }) => {
 
       <div className='overflow-y-hidden hover:overflow-y-scroll flex flex-col gap-y-2 p-2 bg-red-400'>
         {users &&
-          users.map((user, index) => (
+          users?.map((user, index) => (
             <div
               key={user._id}
               className={`${
@@ -24,7 +24,7 @@ const ChatUser = ({ users }) => {
                   alt='User'
                   className='w-10 h-10 rounded-full'
                 />
-                User {index + 1} - {user.username}
+                User {index + 1} - {user?.username}
               </div>
             </div>
           ))}

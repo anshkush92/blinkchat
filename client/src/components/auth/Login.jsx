@@ -17,7 +17,7 @@ const Login = () => {
       localStorage.getItem('blinkchat-current-user-username') ||
       localStorage.getItem('blinkchat-current-user-email')
     ) {
-      navigate('/');
+      navigate('/chat');
     }
   }, [navigate]);
 

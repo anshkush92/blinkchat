@@ -38,7 +38,7 @@ const ChatContainer = () => {
       setContacts(
         data?.users.filter(
           (user) =>
-            user.email !== localStorage.getItem('blinkchat-current-user-email')
+            user?.email !== localStorage.getItem('blinkchat-current-user-email')
         )
       );
     };

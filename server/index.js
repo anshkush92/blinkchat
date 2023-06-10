@@ -58,8 +58,8 @@ io.on('connection', (socket) => {
   global.chatSocket = socket;
   console.log('Socket connected');
   // Listen the 'add-user' event (online or logged in), for the user id and store the socket id
-  socket.on('add-user', (userId) => {
-    onlineUsers.set(userId, socket.id);
+  socket.on('add-user', (userEmail) => {
+    onlineUsers.set(userEmail, socket.id);
     console.log(global.onlineUsers);
   });
 

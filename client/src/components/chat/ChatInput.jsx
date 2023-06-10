@@ -1,16 +1,24 @@
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import { toast } from 'react-toastify';
 import url from '../../utils/apiRoutes';
 import ChatContext from '../../context/chatContext';
 
-const ChatInput = () => {
-  const { currentChat, currentUser } = useContext(ChatContext);
-  const [message, setMessage] = useState();
+const ChatInput = ({ socket }) => {
+  const { currentChat, currentUser, message, setMessage } =
+    useContext(ChatContext);
+  // const [message, setMessage] = useState();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log('submit', message);
 
     try {
+      socket.current.emit('send-message', {
+        from: currentUser.email,
+        to: currentChat.email,
+        message,
+      });
+
       const response = await fetch(`${url}/messages/add`, {
         method: 'POST',
         headers: {

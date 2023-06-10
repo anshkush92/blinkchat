@@ -4,6 +4,8 @@ import SubmitButton from '../common/buttons/SubmitButton';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import url from '../../utils/apiRoutes';
+
 const Register = () => {
   const navigate = useNavigate();
 
@@ -12,7 +14,7 @@ const Register = () => {
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!username || !email || !password || !confirmPassword) {
@@ -21,7 +23,21 @@ const Register = () => {
       toast.error('Passwords do not match');
     }
 
-    console.log('Form submitted');
+    // Sending form data to the server
+    const data = await fetch(`${url}/auth/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, email, password }),
+    });
+
+    // Getting response from the server
+    const response = await data.json();
+
+    console.log(response);
+
+    toast.success('Form submitted');
   };
 
   const handleUsername = (event) => {

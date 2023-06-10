@@ -1,5 +1,7 @@
 const register = async (req, res) => {
-  res.json({ message: 'Register controller' });
+  const { username, email, password } = req.body;
+  console.log(req.body);
+  res.json({ message: 'From submitted successfully', data: req.body });
 };
 
 module.exports = register;

@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import ChatContext from '../../context/chatContext';
 import { useNavigate } from 'react-router-dom';
 import url from '../../utils/apiRoutes';
 import ChatUser from './ChatUser';
 import ChatArea from './ChatArea';
 
 const ChatContainer = () => {
-  const [currentUser, setCurrentUser] = useState();
+  const { currentUser, handleCurrentUser } = useContext(ChatContext);
   const [contacts, setContacts] = useState();
 
   const navigate = useNavigate();
@@ -20,12 +21,12 @@ const ChatContainer = () => {
     ) {
       navigate('/login');
     } else {
-      setCurrentUser({
+      handleCurrentUser({
         username: localStorage.getItem('blinkchat-current-user-username'),
         email: localStorage.getItem('blinkchat-current-user-email'),
       });
     }
-  }, [navigate]);
+  }, [navigate, handleCurrentUser]);
 
   // Get all contacts of the current user
   useEffect(() => {

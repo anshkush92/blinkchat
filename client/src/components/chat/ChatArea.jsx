@@ -1,10 +1,12 @@
-import React from 'react';
+import { useContext } from 'react';
+import ChatContext from '../../context/chatContext';
 
 const ChatArea = () => {
+  const { currentUser } = useContext(ChatContext);
   return (
     <div className='bg-blue-200 grow-[1]'>
       {' '}
-      Current User - {localStorage.getItem('blinkchat-current-user-username')}
+      Current User - {currentUser?.username}
     </div>
   );
 };

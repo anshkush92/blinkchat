@@ -65,18 +65,22 @@ const ChatArea = ({ socket }) => {
           <ChatHeader />
 
           <div className='overflow-y-scroll'>
-            {messages?.map((message, index) => (
-              <div
-                key={index}
-                className={`flex flex-col gap-y-2 py-4 ${
-                  message.self ? 'items-end' : 'items-start'
-                }`}
-              >
-                {message?.message?.length && (
-                  <Message message={message?.message} />
-                )}
-              </div>
-            ))}
+            {messages?.map(
+              (message, index) =>
+                message?.message?.length && (
+                  <div
+                    key={index}
+                    ref={scrollRef}
+                    className={`flex flex-col gap-y-2 py-4 ${
+                      message.self ? 'items-end' : 'items-start'
+                    }`}
+                  >
+                    {message?.message?.length && (
+                      <Message message={message?.message} />
+                    )}
+                  </div>
+                )
+            )}
           </div>
         </div>
       )}

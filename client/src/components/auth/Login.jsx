@@ -13,7 +13,10 @@ const Login = () => {
 
   // Check if user is already logged in - Persistent Login
   useEffect(() => {
-    if (localStorage.getItem('blinkchat-user')) {
+    if (
+      localStorage.getItem('blinkchat-current-user-username') ||
+      localStorage.getItem('blinkchat-current-user-email')
+    ) {
       navigate('/');
     }
   }, [navigate]);
@@ -39,6 +42,11 @@ const Login = () => {
     console.log(data);
 
     if (data.status) {
+      localStorage.setItem(
+        'blinkchat-current-user-username',
+        data.data.username
+      );
+      localStorage.setItem('blinkchat-current-user-email', data.data.email);
       toast.success(data.message);
       navigate('/');
     } else {

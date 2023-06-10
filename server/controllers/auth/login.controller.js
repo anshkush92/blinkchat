@@ -21,7 +21,7 @@ const login = async (req, res) => {
         return res.json({
           status: true,
           message: 'Successfully logged in',
-          data: req.body,
+          data: user,
         });
       }
     } else {

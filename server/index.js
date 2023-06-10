@@ -25,11 +25,13 @@ app.use(express.json());
 const generalRoutes = require('./routes/general');
 const authRoutes = require('./routes/auth');
 const chatRoutes = require('./routes/chat');
+const messageRoutes = require('./routes/message');
 
 // Adding the routes to the app
 app.use('/api/v1', generalRoutes);
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1', chatRoutes);
+app.use('/api/v1', messageRoutes);
 
 // Connecting to the database
 const db = require('./config/db');

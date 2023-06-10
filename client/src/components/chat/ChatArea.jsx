@@ -1,12 +1,18 @@
 import { useContext } from 'react';
 import ChatContext from '../../context/chatContext';
 
+import Welcome from './Welcome';
+
 const ChatArea = () => {
-  const { currentUser } = useContext(ChatContext);
+  const { currentChat } = useContext(ChatContext);
+
   return (
-    <div className='bg-blue-200 grow-[1]'>
-      {' '}
-      Current User - {currentUser?.username}
+    <div className='flex flex-col justify-center items-center text-white grow-[1]'>
+      {currentChat ? (
+        <div>Chatting with {currentChat.username}</div>
+      ) : (
+        <Welcome />
+      )}
     </div>
   );
 };

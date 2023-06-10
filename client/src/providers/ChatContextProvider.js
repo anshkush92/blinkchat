@@ -5,7 +5,7 @@ const ChatContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState();
   const [currentChat, setCurrentChat] = useState();
 
-  // Gives the current user information
+  // Gives the current user information - Gets only email and username
   const handleCurrentUser = useCallback((user) => {
     console.log('Current user', user);
     setCurrentUser(user);

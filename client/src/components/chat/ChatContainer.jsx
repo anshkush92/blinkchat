@@ -34,7 +34,13 @@ const ChatContainer = () => {
       const response = await fetch(`${url}/users`);
       const data = await response.json();
       console.log(data);
-      setContacts(data?.users);
+
+      setContacts(
+        data?.users.filter(
+          (user) =>
+            user.email !== localStorage.getItem('blinkchat-current-user-email')
+        )
+      );
     };
 
     getContacts();

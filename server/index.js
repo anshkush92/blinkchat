@@ -3,6 +3,7 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
+const socket = require('socket.io');
 
 const app = express();
 require('dotenv').config();
@@ -37,6 +38,37 @@ app.use('/api/v1', messageRoutes);
 const db = require('./config/db');
 
 // Starting the server for now on port 8000
-app.listen(process.env.PORT || 8000, () => {
+const server = app.listen(process.env.PORT || 8000, () => {
   console.log(`Server started on port ${process.env.PORT || 8000}`);
+});
+
+const io = socket(server, {
+  cors: {
+    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    credentials: true,
+  },
+});
+
+// Store the online users
+global.onlineUsers = new Map();
+
+// Listens for new socket connections
+io.on('connection', (socket) => {
+  // Set the socket object globally as chatSocket
+  global.chatSocket = socket;
+  console.log('Socket connected');
+  // Listen the 'add-user' event (online or logged in), for the user id and store the socket id
+  socket.on('add-user', (userId) => {
+    onlineUsers.set(userId, socket.id);
+    console.log(global.onlineUsers);
+  });
+
+  // Listens the send-message event, for the message object and send the message to the receiver
+  socket.on('send-message', (message) => {
+    const sendUserSocket = onlineUsers.get(message.to);
+    // If the user is online then send the message
+    if (sendUserSocket) {
+      socket.to(sendUserSocket).emit('receive-message', message.message);
+    }
+  });
 });

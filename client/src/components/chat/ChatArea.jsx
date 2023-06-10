@@ -44,10 +44,10 @@ const ChatArea = () => {
           <ChatHeader />
 
           <div className='overflow-y-scroll'>
-            {messages.map((message, index) => (
+            {messages?.map((message, index) => (
               <div
                 key={index}
-                className={`flex flex-col gap-y-4 py-4 ${
+                className={`flex flex-col gap-y-2 py-4 ${
                   message.self ? 'items-end' : 'items-start'
                 }`}
               >

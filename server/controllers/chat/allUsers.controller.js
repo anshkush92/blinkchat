@@ -4,9 +4,9 @@ const getAllUsers = async (req, res) => {
   try {
     // Logic to get all users
     const users = await User.find({});
-    res.status(200).json(users);
+    res.json({ status: true, message: 'All users', users });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.json({ status: false, message: error.message, error });
   }
 };
 

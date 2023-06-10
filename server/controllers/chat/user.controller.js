@@ -3,9 +3,9 @@ const User = require('../../models/user.model');
 const getUser = async (req, res) => {
   try {
     const user = await User.findById({ _id: req.params.id });
-    res.status(200).json(user);
+    res.json({ status: true, message: 'User', user });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.json({ status: false, message: error.message, error });
   }
 };
 

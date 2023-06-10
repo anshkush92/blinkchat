@@ -17,7 +17,9 @@ const ChatUser = ({ users }) => {
           users.map((user, index) => (
             <div
               key={user._id}
-              className='bg-[#FEDDBE] p-2'
+              className={`${
+                user._id === currentChat ? 'bg-orange-300' : 'bg-[#FEDDBE]'
+              } p-2`}
               onClick={() => handleCurrentChat(user)}
             >
               <div className='flex items-center gap-x-2'>

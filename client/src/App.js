@@ -6,10 +6,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import Home from './pages/home/HomePage';
 import Auth from './pages/auth/AuthPage';
 import Chat from './pages/chat/ChatPage';
+import ChatContextProvider from './providers/ChatContextProvider';
 
 const App = () => {
   return (
-    <div>
+    <ChatContextProvider>
       <ToastContainer autoClose={3000} />
       <BrowserRouter>
         <Routes>
@@ -19,7 +20,7 @@ const App = () => {
           <Route path='/chat' element={<Chat />} />
         </Routes>
       </BrowserRouter>
-    </div>
+    </ChatContextProvider>
   );
 };
 

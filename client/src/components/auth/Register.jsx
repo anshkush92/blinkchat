@@ -37,7 +37,15 @@ const Register = () => {
 
     console.log(response);
 
-    toast.success('Form submitted');
+    if (response.status === false) {
+      toast.error(response.message);
+    } else {
+      localStorage.setItem('blinkchat-user', response.username);
+      toast.success(response.message);
+
+      // Navigate to homepage after successful login
+      navigate('/');
+    }
   };
 
   const handleUsername = (event) => {

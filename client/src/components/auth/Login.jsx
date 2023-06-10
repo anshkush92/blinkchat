@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import ChatContext from '../../context/chatContext';
 import Input from '../common/inputs/Input';
 import SubmitButton from '../common/buttons/SubmitButton';
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +8,7 @@ import url from '../../utils/apiRoutes';
 
 const Login = () => {
   const navigate = useNavigate();
+  const { handleCurrentUser } = useContext(ChatContext);
 
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -18,8 +20,13 @@ const Login = () => {
       localStorage.getItem('blinkchat-current-user-email')
     ) {
       navigate('/chat');
+    } else {
+      handleCurrentUser({
+        username: localStorage.getItem('blinkchat-current-user-username'),
+        email: localStorage.getItem('blinkchat-current-user-email'),
+      });
     }
-  }, [navigate]);
+  }, [navigate, handleCurrentUser]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -48,7 +55,7 @@ const Login = () => {
       );
       localStorage.setItem('blinkchat-current-user-email', data.data.email);
       toast.success(data.message);
-      navigate('/');
+      navigate('/chat');
     } else {
       toast.error(data.message);
     }

@@ -1,12 +1,8 @@
-import { useState } from 'react';
+import { useContext } from 'react';
+import ChatContext from '../../context/chatContext';
 
 const ChatUser = ({ users }) => {
-  const [currentChat, setCurrentChat] = useState();
-
-  const handleCurrentChat = (user) => {
-    console.log(user.username);
-    setCurrentChat(user._id);
-  };
+  const { currentChat, handleCurrentChat } = useContext(ChatContext);
 
   return (
     <div className='h-full flex flex-col gap-y-4 bg-[#FFC947] p-4 basis-3/12 justify-between'>

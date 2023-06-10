@@ -1,10 +1,41 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { toast } from 'react-toastify';
+import url from '../../utils/apiRoutes';
+import ChatContext from '../../context/chatContext';
 
 const ChatInput = () => {
+  const { currentChat, currentUser } = useContext(ChatContext);
   const [message, setMessage] = useState();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    try {
+      const response = await fetch(`${url}/messages/add`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message,
+          from: currentUser.email,
+          to: currentChat.email,
+        }),
+      });
+
+      const data = await response.json();
+
+      console.log(data);
+
+      if (data.status) {
+        toast.success(data.message);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
     console.log(message);
     setMessage('');
   };

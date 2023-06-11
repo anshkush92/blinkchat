@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect, useRef } from 'react';
 import ChatContext from '../../context/chatContext';
 import ChatHeader from './ChatHeader';
 import ChatInput from './ChatInput';
@@ -7,8 +7,10 @@ import Welcome from './Welcome';
 
 import url from '../../utils/apiRoutes';
 
-const ChatArea = () => {
-  const { currentChat, currentUser } = useContext(ChatContext);
+const ChatArea = ({ socket }) => {
+  const { currentChat, currentUser, message, setMessage } =
+    useContext(ChatContext);
+  const scrollRef = useRef();
   const from = currentUser?.email;
   const to = currentChat?.email;
 
@@ -31,6 +33,25 @@ const ChatArea = () => {
     getMessages();
   }, [from, to]);
 
+  useEffect(() => {
+    if (socket.current) {
+      // Listens for the receive-message event from the server
+      socket.current.on('receive-message', (message) => {
+        console.log(message);
+        setMessage({ self: false, message });
+      });
+    }
+  }, [socket, setMessage]);
+
+  // Adds the message to the messages array
+  useEffect(() => {
+    message && setMessages((messages) => [...messages, message]);
+  }, [message]);
+
+  useEffect(() => {
+    scrollRef?.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
   return (
     <div
       className={`${
@@ -44,21 +65,27 @@ const ChatArea = () => {
           <ChatHeader />
 
           <div className='overflow-y-scroll'>
-            {messages?.map((message, index) => (
-              <div
-                key={index}
-                className={`flex flex-col gap-y-2 py-4 ${
-                  message.self ? 'items-end' : 'items-start'
-                }`}
-              >
-                <Message message={message.message} />
-              </div>
-            ))}
+            {messages?.map(
+              (message, index) =>
+                message?.message?.length && (
+                  <div
+                    key={index}
+                    ref={scrollRef}
+                    className={`flex flex-col gap-y-2 py-4 ${
+                      message.self ? 'items-end' : 'items-start'
+                    }`}
+                  >
+                    {message?.message?.length && (
+                      <Message message={message?.message} />
+                    )}
+                  </div>
+                )
+            )}
           </div>
         </div>
       )}
       {!currentChat && <Welcome />}
-      {currentChat && <ChatInput />}
+      {currentChat && <ChatInput socket={socket} />}
     </div>
   );
 };
